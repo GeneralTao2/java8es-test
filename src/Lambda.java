@@ -4,6 +4,24 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+interface Card extends Comparable<Card> {
+    public enum s {
+        a (1);
+        private final int b;
+        s(int i) {
+            this.b = i;
+        }
+    }
+}
+
+interface interf {
+    void first();
+    void second();
+    default void thrid() {
+        List<String> str = new ArrayList<String>();
+        String[] p = str.toArray(new String[0]); //ctrl+shift+space
+    }
+}
 
 public class Lambda {
     public static <X, Y> void processElements(
