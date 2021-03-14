@@ -6,8 +6,32 @@ interface Person {
 }
 
 class Man implements Person {
+    public static void heyIamStatic() {
+
+    }
     public void who() {
         System.out.println("I am a man");
+    }
+    final void youCantChangeMe() {
+
+    }
+    static abstract class YeAbstaractClass {
+        abstract void implementMe(int a, int b);
+        public static void callMe() {
+
+        }
+    }
+    final static class YouCannotSubclassMe extends YeAbstaractClass {
+        int yeah = 0;
+
+        void implementMe(int a, int b) {
+
+        }
+    }
+    public Man() {
+        youCantChangeMe();
+        YouCannotSubclassMe right = new YouCannotSubclassMe();
+        YeAbstaractClass.callMe();
     }
 }
 
@@ -18,6 +42,12 @@ class Me extends Man {
     long creditCardNumber = 1234_5678_9012_3456L;
     short sh = 1;
     char b;
+
+
+    public static void heyIamStatic() {
+
+    }
+
     public String getA() {
         return a;
     }
@@ -25,6 +55,7 @@ class Me extends Man {
     public void setA(String a) {
         this.a = a;
     }
+
 
     private String a;
 
@@ -201,5 +232,9 @@ class main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        BackWord.main();
+        System.out.println(Integer.valueOf(1));
+        System.out.format("%saaa","A"); //printf
+        DecimalFormatDemo.main();
     }
 }

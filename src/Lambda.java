@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
@@ -47,8 +48,35 @@ public class Lambda {
         return result;
     }
 
+    public static <T extends Number> Integer IamRestrictedGenericMethod(T t) {
+        return t.intValue() + 10;
+    }
+
     public static <X> void printMe(X something) {
         System.out.println(something);
+    }
+
+    static <T> T pick(T a1, T a2) { return a2; }
+    Serializable s = pick("d", new ArrayList<String>());
+
+    public static double sumOfList(List<? extends Number> list) {   // less restricted generic method
+        double s = 0.0;                                             // upper bounded wildcard
+        for (Number n : list)
+            s += n.doubleValue();
+        return s;
+    }
+
+    public static String sumOfListStrings(List<?> list) {   // much less restricted generic method
+        StringBuilder s = new StringBuilder();        // upper bounded wildcard
+        for (Object n : list)
+            s.append(n);;
+        return s.toString();
+    }
+
+    public static void addNumbers(List<? super Integer> list) { // less restricted, but accepts Integer
+        for (int i = 1; i <= 10; i++) {                         //superclasses. Lower bounded wildcard
+            list.add(i);
+        }
     }
 
     public static void main() {
@@ -72,13 +100,29 @@ public class Lambda {
         Set<Human> rosterSetLambda =
                 transferElements(roster, HashSet::new);
         printMe(rosterSetLambda);
-        List<Human> list1 = new ArrayList<Human>();
-        ArrayList<Integer> list2 = new ArrayList<Integer>();
+        List<Human> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
         Integer int1 = 1;
 
+        roster.sort(Comparator
+                .comparing(Human::getAge)
+                .thenComparing(Human::getEmailAddress));
+
         class Book {}
+        List<Book> booksDia = new ArrayList<>(); // diamond
         List<? super Book> books = new ArrayList<>(); // permanently empty
         books.add(new Book()); // illegal
+
+        Integer a_ = IamRestrictedGenericMethod(10);
+
+        List<Integer> li = Arrays.asList(1, 2, 3);
+        System.out.println("sum = " + sumOfList(li));
+        System.out.println("sum = " + sumOfListStrings(li));
+        List<Number> superclass = new ArrayList<>();
+        addNumbers(superclass);
+        List<? extends Integer> intList = new ArrayList<>();
+        List<? extends Number>  numList = intList;  // OK. List<? extends Integer> is a subtype of List<? extends Number>
+
     }
 }
 
